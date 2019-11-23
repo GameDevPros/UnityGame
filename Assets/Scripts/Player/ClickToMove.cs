@@ -21,56 +21,61 @@ public class ClickToMove : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        //Left mouse button
         if(Input.GetMouseButtonDown(0))
         {
             isObject = false;
-            //move to point
-            navMeshAgent.isStopped = false;
+            //move to point   
             if(Physics.Raycast(ray, out hit, 100))
             {
+                navMeshAgent.isStopped = false;
                 navMeshAgent.destination = hit.point;
 
-                if(hit.collider.gameObject.tag != "Untagged")
+                if(hit.collider.gameObject.tag == "Chest")
                 {
                     isObject = true;
+                    navMeshAgent.destination = hit.point;
+                    
                 }
             }
         } 
 
+        //right mouse button
         if(Input.GetMouseButtonDown(1))
         {
-            isObject = false;
-            //move to point
-            navMeshAgent.isStopped = false;
+            //move to point         
             if(Physics.Raycast(ray, out hit, 100))
             {
                 if(hit.collider.gameObject.tag == "Enemy")
                 {
-                    navMeshAgent.destination = hit.point;
+                    navMeshAgent.isStopped = false;
                     isEnemy = true;
+                    navMeshAgent.destination = hit.point;
                 }
                 else
                 {
-                    Debug.Log("Dies kann ich nicht angreifen");
+                    Debug.Log("You can't attack this target.");
                 }
             }
+        }
+
+        //When object is reached then interact with it
+        if(Vector3.Distance(transform.position, navMeshAgent.destination) <= 4)
+        {
+            if(isObject)
+            {
+                navMeshAgent.isStopped = true;
+                Debug.Log("Open Chest");
+                isObject = false;
+            }
+
+            if(isEnemy)
+            {
+                navMeshAgent.isStopped = true;
+                Debug.Log("Attack Enemy");
+                isEnemy = false;
+            }
+            
         }              
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Enemy" && isEnemy)
-        {
-            navMeshAgent.isStopped = true;
-            Debug.Log("Attack");
-            isEnemy = false;
-        }
-
-        if(other.gameObject.tag == "Chest" && isObject)
-        {
-            navMeshAgent.isStopped = true;
-            Debug.Log("Open");
-            isObject = false;
-        }
     }
 }
