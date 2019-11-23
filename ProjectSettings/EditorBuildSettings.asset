@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PlayerMovement.unity
+    path: Assets/Scenes/Scene_Tibor.unity
     guid: cab59991cc3b5204a82045a52f1afdb9
   m_configObjects: {}
