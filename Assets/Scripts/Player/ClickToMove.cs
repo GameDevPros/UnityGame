@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class ClickToMove : MonoBehaviour
 {
     NavMeshAgent navMeshAgent;
+    ThirdPersonCharacter character;
     bool isRunning;
     bool isObject;
     bool isEnemy;
@@ -15,6 +16,7 @@ public class ClickToMove : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        character = GetComponent<ThirdPersonCharacter>();
     }
 
     void Update()
@@ -26,7 +28,7 @@ public class ClickToMove : MonoBehaviour
         {
             isObject = false;
             //move to point   
-            if(Physics.Raycast(ray, out hit, 100))
+            if(Physics.Raycast(ray, out hit, 1000))
             {
                 navMeshAgent.isStopped = false;
                 navMeshAgent.destination = hit.point;
@@ -35,32 +37,19 @@ public class ClickToMove : MonoBehaviour
                 {
                     isObject = true;
                     navMeshAgent.destination = hit.point;
-                    
                 }
-            }
-        } 
 
-        //right mouse button
-        if(Input.GetMouseButtonDown(1))
-        {
-            //move to point         
-            if(Physics.Raycast(ray, out hit, 100))
-            {
                 if(hit.collider.gameObject.tag == "Enemy")
                 {
                     navMeshAgent.isStopped = false;
                     isEnemy = true;
                     navMeshAgent.destination = hit.point;
                 }
-                else
-                {
-                    Debug.Log("You can't attack this target.");
-                }
             }
         }
 
         //When object is reached then interact with it
-        if(Vector3.Distance(transform.position, navMeshAgent.destination) <= 4)
+        if(Vector3.Distance(transform.position, navMeshAgent.destination) <= 1)
         {
             if(isObject)
             {
@@ -76,6 +65,11 @@ public class ClickToMove : MonoBehaviour
                 isEnemy = false;
             }
             
-        }              
+        }
+
+        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            character.Move(navMeshAgent.desiredVelocity, false, false);
+        else
+            character.Move(Vector3.zero, false, false);           
     }
 }
