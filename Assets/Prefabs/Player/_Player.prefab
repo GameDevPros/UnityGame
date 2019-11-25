@@ -1718,7 +1718,7 @@ GameObject:
   - component: {fileID: 4833487553522863359}
   - component: {fileID: 6186235339960969336}
   m_Layer: 0
-  m_Name: AIThirdPersonController
+  m_Name: _Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.2
+  m_GroundCheckDistance: 0.5
 --- !u!114 &6186235339960969336
 MonoBehaviour:
   m_ObjectHideFlags: 0
