@@ -6,17 +6,19 @@ using UnityEngine.AI;
 public class ClickToMove : MonoBehaviour
 {
     NavMeshAgent navMeshAgent;
-    ThirdPersonCharacter character;
     bool isRunning;
     bool isObject;
     bool isEnemy;
     RaycastHit hit;
+
+    Animator animator;
+		
     
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        character = GetComponent<ThirdPersonCharacter>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -67,9 +69,9 @@ public class ClickToMove : MonoBehaviour
             
         }
 
-        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
-            character.Move(navMeshAgent.desiredVelocity, false, false);
-        else
-            character.Move(Vector3.zero, false, false);           
+        //if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            
+        //else
+                    
     }
 }
