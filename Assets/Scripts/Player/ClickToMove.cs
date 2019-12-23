@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ClickToMove : MonoBehaviour
 {
     NavMeshAgent navMeshAgent;
-    bool isRunning;
+    public bool isRunning;
     bool isObject;
     bool isEnemy;
     RaycastHit hit;
@@ -69,9 +69,9 @@ public class ClickToMove : MonoBehaviour
             
         }
 
-        //if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
-            
-        //else
-                    
+        if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            isRunning = true;  
+        else
+            isRunning = false;  
     }
 }
