@@ -13,12 +13,13 @@ public class ClickToMove : MonoBehaviour
 
     Animator animator;
 		
-    
+    PlayerCombat playerCombat;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     void Update()
@@ -51,7 +52,7 @@ public class ClickToMove : MonoBehaviour
         }
 
         //When object is reached then interact with it
-        if(Vector3.Distance(transform.position, navMeshAgent.destination) <= 1)
+        if(Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.2f)
         {
             if(isObject)
             {
@@ -63,7 +64,7 @@ public class ClickToMove : MonoBehaviour
             if(isEnemy)
             {
                 navMeshAgent.isStopped = true;
-                Debug.Log("Attack Enemy");
+                playerCombat.Attack();
                 isEnemy = false;
             }
             
