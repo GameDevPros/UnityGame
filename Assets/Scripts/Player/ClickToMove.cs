@@ -8,18 +8,21 @@ public class ClickToMove : MonoBehaviour
     NavMeshAgent navMeshAgent;
     public bool isRunning;
     bool isObject;
+    bool isHuman;
     bool isEnemy;
     RaycastHit hit;
 
     Animator animator;
 		
     PlayerCombat playerCombat;
+    PlayerSpeak playerSpeak;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         playerCombat = GetComponent<PlayerCombat>();
+        playerSpeak = GetComponent<PlayerSpeak>();
     }
 
     void Update()
@@ -48,6 +51,15 @@ public class ClickToMove : MonoBehaviour
                     isEnemy = true;
                     navMeshAgent.destination = hit.point;
                 }
+
+                if(hit.collider.gameObject.tag == "Human")
+                {
+                    navMeshAgent.isStopped = false;
+                    isHuman = true;
+                    navMeshAgent.destination = hit.point;
+
+                    playerSpeak.human = hit.collider.gameObject;
+                }
             }
         }
 
@@ -57,17 +69,23 @@ public class ClickToMove : MonoBehaviour
             if(isObject)
             {
                 navMeshAgent.isStopped = true;
-                Debug.Log("Open Chest");
                 isObject = false;
+                Debug.Log("Open Chest");
             }
 
             if(isEnemy)
             {
                 navMeshAgent.isStopped = true;
-                playerCombat.Attack();
                 isEnemy = false;
+                playerCombat.Attack();
             }
             
+            if(isHuman)
+            {
+                navMeshAgent.isStopped = true;
+                isHuman = false;
+                playerSpeak.SpeakWithHuman();
+            }
         }
 
         if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
